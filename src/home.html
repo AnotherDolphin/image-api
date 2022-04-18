@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>Imagize</h1>
+        <p>
+            Enter your generated image's URL above or generate a new one below
+        </p>
+        <form method="post" action="/post" enctype="multipart/form-data">
+            <input type="file" name="image" />
+            <p>Resize settings</p>
+            <div>
+                <label for="width">width: </label>
+                <input type="number" name="width" id="width" />
+                <label for="height">height: </label>
+                <input type="number" name="height" id="height" />
+            </div>
+            <button type="submit" name="upload">Upload</button>
+        </form>
+    </body>
+</html>
+
+<style>
+    body {
+        font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    form {
+        background: #aaccff;
+        padding: 2rem;
+        border-radius: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    input[type='number'] {
+        width: 100px;
+    }
+
+    button {
+        align-self: center;
+        margin-top: 1rem;
+        padding: 1rem 2rem;
+        border-radius: 1rem;
+        cursor: pointer;
+    }
+</style>
