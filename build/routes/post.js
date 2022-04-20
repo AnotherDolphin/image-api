@@ -18,10 +18,14 @@ const upload_1 = __importDefault(require("../utils/upload"));
 const IMG_DIR = 'http://localhost:3000/img/';
 const route = express_1.default.Router();
 route.post('/', upload_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const width = parseInt(req.body.width);
     const height = parseInt(req.body.height);
-    const outputFile = yield (0, resize_1.default)(req.file.path, width, height);
-    console.log(req.file.path);
+    let outputFile;
+    if (width | height)
+        outputFile = yield (0, resize_1.default)(req.file.path, width, height);
+    else
+        outputFile = (_a = req.file) === null || _a === void 0 ? void 0 : _a.path;
     if (!outputFile) {
         res.send('Upload failed: Please use a proper image file');
         return;

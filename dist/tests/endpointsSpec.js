@@ -15,16 +15,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = __importDefault(require("../index"));
 const supertest_1 = __importDefault(require("supertest"));
 const fs_1 = __importDefault(require("fs"));
-const isCached_1 = __importDefault(require("../utils/isCached"));
 const request = (0, supertest_1.default)(index_1.default);
-describe('Test route responses', () => {
+describe('Test endpoint responses', () => {
+    it('get main/home endpoint', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield request.get('/');
+        expect(response.status).toBe(200);
+    }));
     it('upload sample image from local dir', () => __awaiter(void 0, void 0, void 0, function* () {
         const query = yield request
             .post('/post')
             .attach('image', './src/tests/sample.png');
-        expect((0, isCached_1.default)('sample.png')).toBeTruthy();
+        expect(fs_1.default.existsSync('./gallery/sample.png')).toBeTrue();
     }));
-    it('request cached image', () => __awaiter(void 0, void 0, void 0, function* () {
+    xit('request cached image', () => __awaiter(void 0, void 0, void 0, function* () {
         const query = yield request.get('/img/sample.png');
         expect(query.status).toBe(200);
     }));
@@ -32,11 +35,10 @@ describe('Test route responses', () => {
         const query = yield request.get('/img/bad-path.png');
         expect(query.text).toBe('Image does not exist');
     }));
-    it('requests new image size', () => __awaiter(void 0, void 0, void 0, function* () {
-        const query = yield request.get('/img/sample.png?height=100');
-        expect(query.status).toBe(200);
-    }));
-    // delete generated test images after testing
+    // it('requests new image size', async () => {
+    //     const query = await request.get('/img/sample.png?height=100')
+    //     expect(query.status).toBe(200)
+    // })
     afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
         fs_1.default.unlink('./gallery/sample.png', err => {
             console.log(err !== null && err !== void 0 ? err : 'deleted uploaded test image sample');

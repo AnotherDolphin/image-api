@@ -12,12 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const index_1 = __importDefault(require("../index"));
-const supertest_1 = __importDefault(require("supertest"));
-const request = (0, supertest_1.default)(index_1.default);
-describe('test server run', () => {
-    it('main enpoint success', () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield request.get('/');
-        expect(response.status).toBe(200);
-    }));
-});
+const express_1 = __importDefault(require("express"));
+const resize_1 = __importDefault(require("../utils/resize"));
+const upload_1 = __importDefault(require("../utils/upload"));
+const IMG_DIR = 'http://localhost:3000/img/';
+const route = express_1.default.Router();
+route.post('/', upload_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const width = parseInt(req.body.width);
+    const height = parseInt(req.body.height);
+    const outputFile = yield (0, resize_1.default)(req.file.path, width, height);
+    if (!outputFile) {
+        res.send('Upload failed: Please use a proper image file');
+        return;
+    }
+    const url = IMG_DIR + outputFile.replace('gallery\\', '');
+    res.redirect(url);
+}));
+exports.default = route;

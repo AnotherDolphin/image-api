@@ -9,9 +9,9 @@ const route = express.Router()
 route.post('/', upload, async (req, res) => {
     const width = parseInt(req.body.width)
     const height = parseInt(req.body.height)
-    const outputFile = await resize(req.file!.path, width, height)
-    console.log(req.file!.path)
-
+    let outputFile: string | undefined
+    if(width | height) outputFile = await resize(req.file!.path, width, height)
+    else outputFile = req.file?.path
     if (!outputFile) {
         res.send('Upload failed: Please use a proper image file')
         return
