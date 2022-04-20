@@ -7,20 +7,23 @@
         <title>Document</title>
     </head>
     <body>
-        <h1>Imagize</h1>
-        <p>
-            Enter your generated image's URL above or generate a new one below
-        </p>
+        <header>
+            <h1>🌟 Imagize</h1>
+            <p>
+                Enter your generated image's URL above or generate a new one
+                below
+            </p>
+        </header>
         <form method="post" action="/post" enctype="multipart/form-data">
-            <input type="file" name="image" />
-            <p>Resize settings</p>
+            <input required type="file" name="image" />
+            <p>Resize settings:</p>
             <div>
                 <label for="width">width: </label>
                 <input type="number" name="width" id="width" />
                 <label for="height">height: </label>
                 <input type="number" name="height" id="height" />
             </div>
-            <button type="submit" name="upload">Upload</button>
+            <button type="submit" name="upload">Generate</button>
         </form>
     </body>
 </html>
@@ -32,15 +35,26 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        width: fit-content;
+        margin-inline: auto;
+    }
+
+    header {
+        text-align: center;
+        background: teal;
+        border-radius: 2rem 2rem 0 0;
+        padding-inline: 2rem;
+        color: white;
     }
 
     form {
         background: #aaccff;
+        box-sizing: border-box;
+        width: 100%;
         padding: 2rem;
-        border-radius: 2rem;
+        border-radius: 0 0 2rem 2rem;
         display: flex;
         flex-direction: column;
-        gap: 1rem;
     }
 
     input[type='number'] {
@@ -48,10 +62,13 @@
     }
 
     button {
+        background: teal;
+        color: white;
+        font-size: 1rem;
         align-self: center;
-        margin-top: 1rem;
-        padding: 1rem 2rem;
-        border-radius: 1rem;
+        margin-top: 1.5rem;
+        padding: 10px 2rem;
+        border-radius: 1.2rem;
         cursor: pointer;
     }
 </style>

@@ -1,29 +1,35 @@
 import sharp from 'sharp'
-
-// let inputFile  = "img.jpg";
-// let outputFile = "output.jpg";
+import fs from 'fs'
 
 const resize = async (
-    inputFile: string | any,
-    width: number | undefined = undefined,
-    height: number | undefined = undefined
+    inputFile: string,
+    width: number = NaN,
+    height: number = NaN
 ) => {
     try {
-        // const options = {
-        //     height: height,
-        //     width: width,
-        // }
-        // const extension = inputFile.match(/.w+$/)![0]
-        // const name = inputFile.replace(extension, '')
-        
-        const resized = sharp(inputFile).resize({height: 200})
-        
-        resized.toFile('sdf.png').then( res => {
-            // console.log(res);
-        })  
-        // const fileInfo = await resized.toFile(
-        //     `${name}-${width ?? ''}-${height ?? ''}${'.png'}`
-        // )
+        // set target width and/or height if provided
+        const options: { [k: string]: number } = {}
+        if (width) options.width = width
+        if (height) options.height = height
+
+        // construct outfile name
+        const extension = inputFile.match(/\.\w+$/)![0]
+        const name = inputFile.replace(extension, '')
+        let outputFile: string =
+            name +
+            '@' +
+            (options.width ?? '') +
+            'x' +
+            (options.height ?? '') +
+            extension
+
+        // return img if this size is cached
+        if (fs.existsSync(outputFile)) return outputFile
+
+        // resize and return new image
+        const resized = sharp(inputFile).resize(options)
+        await resized.toFile(outputFile)
+        return outputFile
     } catch (err) {
         console.log(err)
     }
