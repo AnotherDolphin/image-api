@@ -23,11 +23,18 @@ const checkResizeQuery = (req, res, next) => __awaiter(void 0, void 0, void 0, f
     var _a, _b;
     const width = (_a = parseInt(req.query.width)) !== null && _a !== void 0 ? _a : NaN;
     const height = (_b = parseInt(req.query.height)) !== null && _b !== void 0 ? _b : NaN;
-    // serve image with if chached with provided dimensions
-    const imageCached = (0, isCached_1.default)(req.params.name, width, height);
-    if (imageCached != false) {
-        res.locals.target = imageCached;
-        return next();
+    try {
+        const imageCached = (0, isCached_1.default)(req.params.name, width, height);
+        if (imageCached) {
+            // serve image with if chached with provided dimensions
+            res.locals.target = imageCached;
+            return next();
+        }
+    }
+    catch (err) {
+        // handle missing filename extension in url
+        let m = err;
+        return res.send(m.message);
     }
     const image = path_1.default.normalize(IMG_DIR + req.params.name);
     // skip resize if url has no resize query

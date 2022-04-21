@@ -16,11 +16,17 @@ const checkResizeQuery = async (
     const width = parseInt(req.query.width as string) ?? NaN
     const height = parseInt(req.query.height as string) ?? NaN
 
-    // serve image with if chached with provided dimensions
-    const imageCached = isCached(req.params.name, width, height)
-    if (imageCached != false) {
-        res.locals.target = imageCached
-        return next()
+    try {
+        const imageCached = isCached(req.params.name, width, height)
+        if (imageCached) {
+            // serve image with if chached with provided dimensions
+            res.locals.target = imageCached
+            return next()
+        }
+    } catch (err) {
+        // handle missing filename extension in url
+        let m = err as Error
+        return res.send(m.message)
     }
 
     const image = path.normalize(IMG_DIR + req.params.name)
@@ -45,6 +51,8 @@ route.get('/:name', checkResizeQuery, (req, res) => {
 })
 
 // redirect empty /image requests to home
-route.get('/', (req, res) => res.redirect('/'))
+route.get('/', (req: express.Request, res: express.Response): void =>
+    res.redirect('/')
+)
 
 export default route

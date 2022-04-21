@@ -13,7 +13,7 @@
 
 `/img/name:` serves cached images
 
-`/img/name:?width=<number>&height=<number>&` to resize and serve a chached image
+`/img/name:?width=<number>&height=<number>` to resize and serve a chached image
 
 `/post` to upload a new image (from UI)
 
@@ -39,4 +39,3 @@ Clone the repo and run `npm install` to get all depencdencies, then start the se
 `/public` for static browser html
 
 `/gallry` directory for all cached images - resized images distinguished by '@' followed by dimesions in filename
-

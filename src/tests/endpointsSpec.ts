@@ -24,6 +24,11 @@ describe('Test route responses', () => {
         expect(query.text).toBe('Image does not exist')
     })
 
+    it('request image without extension', async () => {
+        const query = await request.get('/img/bad-path')
+        expect(query.text).toBe('requested image file missing extension')
+    })
+
     it('requests new image size', async () => {
         const query = await request.get('/img/sample.png?height=100')
         expect(query.status).toBe(200)

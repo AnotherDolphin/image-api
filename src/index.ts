@@ -7,7 +7,7 @@ const app = express()
 const port = 3000
 
 // home page to upload new images
-app.get('/', (req, res) => {
+app.get('/', (req: express.Request, res: express.Response) : void => {
     res.sendFile('public/index.html', { root: path.resolve(__dirname, '../') })
 })
 

@@ -32,6 +32,10 @@ describe('Test route responses', () => {
         const query = yield request.get('/img/bad-path.png');
         expect(query.text).toBe('Image does not exist');
     }));
+    it('request image without extension', () => __awaiter(void 0, void 0, void 0, function* () {
+        const query = yield request.get('/img/bad-path');
+        expect(query.text).toBe('requested image file missing extension');
+    }));
     it('requests new image size', () => __awaiter(void 0, void 0, void 0, function* () {
         const query = yield request.get('/img/sample.png?height=100');
         expect(query.status).toBe(200);
