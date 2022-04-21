@@ -11,7 +11,6 @@ const resize = async (
         const options: { [k: string]: number } = {}
         if (width) options.width = width
         if (height) options.height = height
-        console.log(height);
         
         // construct outfile name
         const extension = inputFile.match(/\.\w+$/)![0]
