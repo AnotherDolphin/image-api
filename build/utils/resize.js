@@ -23,7 +23,6 @@ const resize = (inputFile, width = NaN, height = NaN) => __awaiter(void 0, void 
             options.width = width;
         if (height)
             options.height = height;
-        console.log(height);
         // construct outfile name
         const extension = inputFile.match(/\.\w+$/)[0];
         const name = inputFile.replace(extension, '');

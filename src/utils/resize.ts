@@ -5,7 +5,7 @@ const resize = async (
     inputFile: string,
     width: number = NaN,
     height: number = NaN
-) => {
+): Promise<string | undefined> => {
     try {
         // set target width and/or height if provided
         const options: { [k: string]: number } = {}

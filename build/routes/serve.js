@@ -34,7 +34,8 @@ const checkResizeQuery = (req, res, next) => __awaiter(void 0, void 0, void 0, f
     catch (err) {
         // handle missing filename extension in url
         let m = err;
-        return res.send(m.message);
+        res.send(m.message);
+        return;
     }
     const image = path_1.default.normalize(IMG_DIR + req.params.name);
     // skip resize if url has no resize query
@@ -48,9 +49,11 @@ const checkResizeQuery = (req, res, next) => __awaiter(void 0, void 0, void 0, f
 });
 // serve target image / handle not found
 route.get('/:name', checkResizeQuery, (req, res) => {
+    if (!res.locals.target)
+        res.send('Image does not exist');
     res.sendFile(res.locals.target, (err) => {
         if (err)
-            res.send('Image does not exist').end();
+            res.send('Image does not exist');
         else
             res.end();
     });

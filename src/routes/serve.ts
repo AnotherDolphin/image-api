@@ -12,7 +12,7 @@ const checkResizeQuery = async (
     req: express.Request,
     res: express.Response,
     next: Function
-) => {
+): Promise<void> => {
     const width = parseInt(req.query.width as string) ?? NaN
     const height = parseInt(req.query.height as string) ?? NaN
 
@@ -26,7 +26,8 @@ const checkResizeQuery = async (
     } catch (err) {
         // handle missing filename extension in url
         let m = err as Error
-        return res.send(m.message)
+        res.send(m.message)
+        return
     }
 
     const image = path.normalize(IMG_DIR + req.params.name)
@@ -43,12 +44,17 @@ const checkResizeQuery = async (
 }
 
 // serve target image / handle not found
-route.get('/:name', checkResizeQuery, (req, res) => {
-    res.sendFile(res.locals.target, (err) => {
-        if (err) res.send('Image does not exist').end()
-        else res.end()
-    })
-})
+route.get(
+    '/:name',
+    checkResizeQuery,
+    (req: express.Request, res: express.Response): void => {
+        if (!res.locals.target) res.send('Image does not exist')
+        res.sendFile(res.locals.target, (err) => {
+            if (err) res.send('Image does not exist')
+            else res.end()
+        })
+    }
+)
 
 // redirect empty /image requests to home
 route.get('/', (req: express.Request, res: express.Response): void =>
