@@ -1,5 +1,5 @@
 # Imagize
-### seamless image upload and resize API
+seamless image upload and resize API
 
 ## Application Properties
 1- Use UI to input your image and set desired size
